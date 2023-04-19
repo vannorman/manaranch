@@ -3,6 +3,7 @@
 <link rel="shortcut icon" type="image/png" href="/static/img/potion.png">
 <link rel="stylesheet" href="/static/css/index.css?{{ now  }}" />
 <link rel="stylesheet" href="/static/css/faq.css?{{ now  }}" />
+<script src="/static/js/jquery-min.js"></script>
 <div id="top"></div>
 <div id="swoop"></div>
 <div id="topSpacer"></div>    
@@ -125,8 +126,6 @@
 </div>
 
 
-
-
 <!-- Mosaic -->
 <div class="title2">THE PROPERTY </div>
 <div class="container">
@@ -189,6 +188,55 @@
             <br>
         </div>
 
-
+<div id="displayImages">
+</div>
 <script src="/static/js/faq.js"></script>
+<script>
+    var imageIndex = -1;
+    var imageCount = 15;
+    $('img').each(function(){
+        $(this).on('click',function(){
+            src = $(this).attr('src')
+            i = parseInt(src.replace(/\D/g,''));
+            if (i != imageIndex || $('#displayImages').css('display') == 'none') {
+                imageIndex = i;
+                ShowImage();
+            } else {
+                console.log('non');
+                $('#displayImages').css('display','none');
+            }
+        });
+    });
+    function ShowImage(){
+
+        $('#displayImages').css('display','block').css('background-image', 'url(static/img/'+imageIndex+'.jpg)');
+    }
+document.onkeydown = function(e) {
+    switch(e.which) {
+        case 37: // left
+        case 40:
+        if ($('#displayImages').css('display') == 'block'){
+            i = parseInt($('#displayImages').css('background-image').replace(/\D/g,''));
+            imageIndex = i + 1 > imageCount ? 1 : i + 1;
+            ShowImage();
+        }
+        break;
+
+        case 38: // up
+        case 39: // right
+        if ($('#displayImages').css('display') == 'block'){
+            i = parseInt($('#displayImages').css('background-image').replace(/\D/g,''));
+            imageIndex = i -1 < 1 ? imageCount : i - 1;
+            console.log("i:"+imageIndex);
+            ShowImage();
+        }
+break;
+
+
+        default: return; // exit this handler for other keys
+    }
+    e.preventDefault(); // prevent the default action (scroll / move caret)
+};
+</script>
+
 
